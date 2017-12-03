@@ -9,7 +9,7 @@ int main() {
   int sum_next, sum_halfway;
   char *captcha;
 
-  captcha = loadinput(1, &n);
+  captcha = loadinput("input/input01", &n);
 
   while (n && isspace(captcha[n-1])) n--;
 

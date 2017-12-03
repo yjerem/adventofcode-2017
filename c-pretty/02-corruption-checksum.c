@@ -82,7 +82,7 @@ int main() {
   int sum_minmax, sum_divisible;
   int *row;
 
-  sheet = loadinput(2, &len);
+  sheet = loadinput("input/input02", &len);
 
   p = sheet;
   while (*p) {

@@ -3,27 +3,28 @@
 
 #define LOADINPUT_CHUNK_SIZE 4096
 
-char *loadinput(int day, size_t *len) {
+char *loadinput(const char *path, size_t *len_out) {
   FILE *fp;
-  char filename[32];
   char *buffer;
   size_t nread, i;
 
-  snprintf(filename, sizeof(filename), "input/input%02d", day);
-
-  fp = fopen(filename, "r");
+  fp = fopen(path, "r");
   buffer = NULL;
-  *len = 0;
+  i = 0;
   while (!feof(fp)) {
-    buffer = realloc(buffer, *len + LOADINPUT_CHUNK_SIZE);
-    *len += fread(&buffer[*len], 1, LOADINPUT_CHUNK_SIZE, fp);
+    buffer = realloc(buffer, i + LOADINPUT_CHUNK_SIZE);
+    i += fread(&buffer[i], 1, LOADINPUT_CHUNK_SIZE, fp);
   }
   fclose(fp);
 
-  if (*len % LOADINPUT_CHUNK_SIZE == 0) {
-    buffer = realloc(buffer, *len + 1);
+  if (i % LOADINPUT_CHUNK_SIZE == 0) {
+    buffer = realloc(buffer, i + 1);
   }
-  buffer[*len] = '\0';
+  buffer[i] = '\0';
+
+  if (len_out) {
+    *len_out = i;
+  }
 
   return buffer;
 }
